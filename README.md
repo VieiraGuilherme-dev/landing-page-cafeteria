@@ -48,52 +48,49 @@ Este projeto é um site para a **Cafeteria Café & Grãos**, desenvolvido com fo
 
 ## 1. Composição do Site (index.html)
 
-O arquivo `index.html` contém a estrutura principal da página, dividida em seções como **Sobre**, **Grãos** e **Contato**. Cada seção é acessível por meio de uma barra de navegação fixa.
+O arquivo `index.html` contém a estrutura principal da página, dividida em seções como **Home**, **Sobre**, **Menu**, **Avaliações** e **Endereço**. Cada seção é acessível por meio de uma barra de navegação fixa.
 
 ~~~html
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Café & Grãos</title>
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet">
+    <title>Caffè & Grão</title>
 </head>
+
 <body>
-  <header>
-    <nav>
-      <ul>
-        <li><a href="#about">Sobre</a></li>
-        <li><a href="#grains">Grãos</a></li>
-        <li><a href="#contact">Contato</a></li>
-      </ul>
-    </nav>
-  </header>
+    <header class="header">
+        <section>
+            <a href="#" class="logo">
+                <img src="./img/logo.png" alt="logo">
+            </a>
 
-  <main>
-    <section id="about">
-      <h2>Sobre</h2>
-      <p>Saiba mais sobre nossa história e como escolhemos os melhores grãos.</p>
-    </section>
+            <nav class="navbar">
+                <a href="home">Home</a>
+                <a href="about">Sobre</a>
+                <a href="menu">Menu</a>
+                <a href="review">Avaliações</a>
+                <a href="address">Endereço</a>
+            </nav>
 
-    <section id="grains">
-      <h2>Grãos</h2>
-      <p>Descubra os tipos de grãos que oferecemos e suas origens.</p>
-    </section>
-
-    <section id="contact">
-      <h2>Contato</h2>
-      <p>Entre em contato conosco para mais informações sobre nossos produtos.</p>
-    </section>
-  </main>
-
-  <footer>
-    <p>&copy; 2025 Café & Grãos | Todos os direitos reservados.</p>
-  </footer>
-
-  <script src="script.js"></script>
-</body>
-</html>
+            <div class="icons">
+                <img width="30" height="30" src="https://img.icons8.com/ios-filled/30/ffffff/search--v1.png"
+                    alt="search--v1" />
+                <img width="30" height="30" src="https://img.icons8.com/material/30/ffffff/shopping-cart--v1.png"
+                    alt="shopping-cart--v1" />
+            </div>
+        </section>
+    </header>
 ~~~
 
 ---
@@ -103,24 +100,39 @@ O arquivo `index.html` contém a estrutura principal da página, dividida em se�
 Abaixo está o estilo da barra de navegação fixa e outras estilizações com **CSS3**.
 
 ~~~css
-/* Estilo da barra de navegação */
-nav ul {
-  display: flex;
-  justify-content: space-around;
-  list-style: none;
+.header{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 99;
+    border-bottom: var(--border);
+    background-color: var(--bg);
 }
 
-nav a {
-  text-decoration: none;
-  color: #333;
-  font-weight: bold;
-  padding: 10px;
-  transition: color 0.3s ease;
+.header section{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
 }
 
-nav a:hover {
-  color: #8B4513; /* Cor de destaque ao passar o mouse */
+.navbar a{
+    color: #fff; 
+    font-size: 1.8rem;
+    letter-spacing: 0.1rem;
+    margin-right: 2rem;
 }
+
+.navbar a:hover{
+    color: var(--main-color);
+    border-bottom: 0.1rem solid var(--main-color);
+    padding-bottom: 0;
+    font-size: 2rem;
+}
+
+
 ~~~
 
 ---
@@ -130,15 +142,23 @@ nav a:hover {
 Abaixo está o código JavaScript que implementa a navegação suave entre as seções do site.
 
 ~~~javascript
-// Código para navegação suave
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-  anchor.addEventListener('click', function (e) {
-    e.preventDefault();
 
-    document.querySelector(this.getAttribute('href')).scrollIntoView({
-      behavior: 'smooth'
+document.addEventListener('DOMContentLoaded', function () {
+    const links = document.querySelectorAll('nav ul li a');
+
+    links.forEach(link => {
+        link.addEventListener('click', function (e) {
+            e.preventDefault();
+
+            const targetId = this.getAttribute('href').substring(1);
+
+            const targetSection = document.getElementById(targetId);
+            targetSection.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        });
     });
-  });
 });
 ~~~
 
@@ -149,16 +169,25 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 O site foi desenvolvido para ser responsivo, garantindo que a navegação e o layout se ajustem bem em dispositivos de diferentes tamanhos.
 
 ~~~css
-/* Layout para telas pequenas */
-@media (max-width: 768px) {
-  nav ul {
-    flex-direction: column;
-    align-items: center;
-  }
+*{
+    margin: 0;
+    padding: 0;
+    outline: none;
+    border: none;;
+    text-decoration: none;
+    text-transform: capitalize;
+    transition: 0.2s linear;
+    font-family: "Roboto", sans-serif;
+}
 
-  section {
-    padding: 20px;
-  }
+body{
+    background-color: var(--bg);
+}
+
+section{
+    padding: 3rem 2rem;
+    margin: 0 auto;
+    max-width: 1200px;
 }
 ~~~
 
